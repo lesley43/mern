@@ -91,11 +91,14 @@ export default class EditEvent extends Component {
       newDate: '',
       details: ''
     })
+
+    //Note: if we go back to calendar page after submitting, the changes don't take effect
+    //window.location = '/event'
   }
 
   render() {
     return (
-      <div>
+      <div className="container">
 
       <Calendar
           onChange={this.onChange}
