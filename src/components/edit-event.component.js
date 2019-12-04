@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Calendar from 'react-calendar';
 
 export default class EditEvent extends Component {
   constructor(props) {
     super(props);
+
+    let today = new Date();
+    let yy = today.getFullYear();
+    let mm = today.getMonth() + 1;
+    let dd = today.getDate();
+    let parsed = mm + '/' + dd + '/' + yy;
+
     this.state = {
-      date: "",   //ex: 11/28/2019
+      date: new Date(),
+      newDate: parsed,  //ex: 11/28/2019
       details: "",
       events: [],
     }
+
+    this.onChange = this.onChange.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeDetails = this.onChangeDetails.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -32,22 +43,22 @@ export default class EditEvent extends Component {
     axios.get('http://localhost:5000/event/')
       .then(response => {
         this.setState({
-          events: response.data.map(event => event.date)
+          events: response.data.map(event => event.event)
         })
       })
       .catch((error) => {
         console.log(error);
       })
-    }
+     }
 
-  deleteEvent(id) {
-    axios.delete('http://localhost:5000/event/'+id)
-      .then(res => console.log(res.data));
-    this.setState({
-      events: this.state.events.filter(el => el._id !== id)
-    })
-  }
-
+   onChange = (date) => {
+   let yy = date.getFullYear();
+   let mm = date.getMonth() + 1;
+   let dd = date.getDate();
+   let parsed = mm + '/' + dd + '/' + yy;
+   this.setState({ date });
+   this.setState({ newDate: parsed});
+ }
 
   onChangeDate(e) {
     this.setState({
@@ -64,7 +75,7 @@ export default class EditEvent extends Component {
   onSubmit(e) {
     e.preventDefault(); //prevents the default action
     const event = {
-      date: this.state.date,
+      date: this.state.newDate,
       details: this.state.details,
     }
     console.log(event);
@@ -77,7 +88,7 @@ export default class EditEvent extends Component {
 
     //this will reset the form to blank so they can enter another event
     this.setState({
-      date: '',
+      newDate: '',
       details: ''
     })
   }
@@ -85,6 +96,11 @@ export default class EditEvent extends Component {
   render() {
     return (
       <div>
+
+      <Calendar
+          onChange={this.onChange}
+          value={this.state.date}
+        />
 
         <h3>Edit Event</h3>
         <form onSubmit={this.onSubmit}>
@@ -94,7 +110,7 @@ export default class EditEvent extends Component {
               type="text"
               required
               className="form-control"
-              value={this.state.date}
+              value={this.state.newDate}
               onChange={this.onChangeDate}
             />
           </div>

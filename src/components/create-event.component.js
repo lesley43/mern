@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import axios from 'axios';
+import Calendar from 'react-calendar';
 
 const Event = props => (
   <tr>
@@ -15,11 +16,21 @@ const Event = props => (
 export default class CreateEvent extends Component {
   constructor(props) {
     super(props);
+
+    let today = new Date();
+    let yy = today.getFullYear();
+    let mm = today.getMonth() + 1;
+    let dd = today.getDate();
+    let parsed = mm + '/' + dd + '/' + yy;
+
     this.state = {
-      date: "",   //ex: 11/28/2019
+      date: new Date(),
+      newDate: parsed,  //ex: 11/28/2019
       details: "",
       events: [],
     }
+
+    this.onChange = this.onChange.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeDetails = this.onChangeDetails.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -45,6 +56,15 @@ export default class CreateEvent extends Component {
     })
   }
 
+    onChange = (date) => {
+    let yy = date.getFullYear();
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+    let parsed = mm + '/' + dd + '/' + yy;
+    this.setState({ date });
+    this.setState({ newDate: parsed});
+  }
+
   eventList() {
     return this.state.events.map(current => {
       return <Event event={current} deleteEvent={this.deleteEvent} key={current._id} />;
@@ -66,7 +86,7 @@ export default class CreateEvent extends Component {
   onSubmit(e) {
     e.preventDefault(); //prevents the default action
     const event = {
-      date: this.state.date,
+      date: this.state.newDate,
       details: this.state.details,
     }
     console.log(event);
@@ -79,14 +99,19 @@ export default class CreateEvent extends Component {
 
     //this will reset the form to blank so they can enter another event
     this.setState({
-      date: '',
+      newDate: '',
       details: ''
     })
   }
 
   render() {
     return (
-      <div>
+      <div className="container">
+
+      <Calendar
+          onChange={this.onChange}
+          value={this.state.date}
+        />
 
         <h3>Create new Event</h3>
         <form onSubmit={this.onSubmit}>
@@ -96,7 +121,7 @@ export default class CreateEvent extends Component {
               type="text"
               required
               className="form-control"
-              value={this.state.date}
+              value={this.state.newDate}
               onChange={this.onChangeDate}
             />
           </div>
