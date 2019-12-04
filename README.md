@@ -1,4 +1,5 @@
-Note: You must create a .env file with your Atlas MongoDB info in it so this app can connect to the database.
+--->Note: You must create a .env file with your Atlas MongoDB info in it so this app can connect to the database.
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
