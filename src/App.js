@@ -5,9 +5,10 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from "./components/navbar.component";
 import HomePage from "./components/homepage.component"
 import CropList from "./components/crops-list.component";
-import EditEvent from "./components/edit-event.component";
-import CreateCrop from "./components/create-crop.component";
-import CreateEvent from "./components/create-event.component";
+import CreateCrop from "./components/crop-create.component";
+import EditEvent from "./components/event-edit.component";
+import CreateEvent from "./components/event-create.component";
+import PlotPage from "./components/plot-create.component"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/create" component={CreateCrop} />
         <Route path="/event" component={CreateEvent} />
         <Route path="/edit/:id" component={EditEvent} />
+        <Route path="/plotpage" component={PlotPage} />
     </Router>
   );
 }

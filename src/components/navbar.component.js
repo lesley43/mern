@@ -14,6 +14,9 @@ export default class Navbar extends React.Component {
             <li className="navbar-item">
               <Link to="/create" className="nav-link">Create Crop</Link>
             </li>
+            <li className="navbar-item">
+              <Link to="/plotpage" className="nav-link">Plot</Link>
+            </li>
             <li>
               <Link to="/event" className="nav-link">Calendar</Link>
             </li>
