@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
 import axios from 'axios';
 
-const Event = props => (
-  <tr>
-    <td>{props.event.date}</td>
-    <td>{props.event.details}</td>
-    <td>
-      <Link to={"/edit/"+props.event._id}>edit</Link> | <a href="#" onClick={() => { props.deleteEvent(props.event._id) }}>delete</a>
-    </td>
-  </tr>
-)
-
-export default class CreateEvent extends Component {
+export default class EditEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,14 +12,28 @@ export default class CreateEvent extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeDetails = this.onChangeDetails.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.deleteEvent = this.deleteEvent.bind(this);
   }
 
   //this runs right away
   componentDidMount() {
+    //getting the id directly from the url
+    axios.get('http://localhost:5000/edit/'+this.props.match.params.id)
+      .then(response => {
+        this.setState({
+          date: response.data.date,
+          details: response.data.details
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+
     axios.get('http://localhost:5000/event/')
       .then(response => {
-        this.setState({ events: response.data })
+        this.setState({
+          events: response.data.map(event => event.date)
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -45,11 +48,6 @@ export default class CreateEvent extends Component {
     })
   }
 
-  eventList() {
-    return this.state.events.map(current => {
-      return <Event event={current} deleteEvent={this.deleteEvent} key={current._id} />;
-    })
-  }
 
   onChangeDate(e) {
     this.setState({
@@ -73,7 +71,7 @@ export default class CreateEvent extends Component {
 
     //send http post request data to backend endpoint, the second arg is json body
     //it is sent to backend/routes/events.js
-    axios.post('http://localhost:5000/event/add', event)
+    axios.post('http://localhost:5000/event/update/'+this.props.match.params.id, event)
       //a promise after it's posted, do this
       .then(res => console.log(res.data));
 
@@ -88,7 +86,7 @@ export default class CreateEvent extends Component {
     return (
       <div>
 
-        <h3>Create new Event</h3>
+        <h3>Edit Event</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Date</label>
@@ -114,24 +112,11 @@ export default class CreateEvent extends Component {
           <div className="form-group">
             <input
               type="submit"
-              value="Create Event"
+              value="Edit Event"
               className="btn btn-primary"
             />
           </div>
         </form>
-
-        <h3>Events</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Date</th>
-              <th>Event</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.eventList()}
-          </tbody>
-        </table>
 
       </div>
     )
