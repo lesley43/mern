@@ -10,6 +10,7 @@ import EditEvent from "./components/event-edit.component";
 import CreateEvent from "./components/event-create.component";
 import PlotDiv from "./components/plot-div.component";
 import PlotButton from "./components/plot-button.component";
+import PlotEditButton from "./components/plot-button-edit.component";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         {/*--Plot--*/}
         <Route path="/plot" component={PlotDiv} />
         <Route path="/plotbutton" component={PlotButton} />
+        <Route path="/update/:name" component={PlotEditButton} />
     </Router>
   );
 }

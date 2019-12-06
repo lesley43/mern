@@ -38,6 +38,23 @@ router.route('/:id').delete((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 });
 
+//--update by name
+router.route('/update/:name').post((req, res) => {
+  PlotButton.findById(req.params.id)
+    .then(button => {
+      button.name = req.body.name;
+      button.r = req.body.r;
+      button.g = req.body.g;
+      button.b = req.body.b;
+      button.a = req.body.a;
+
+      button.save()
+        .then(() => res.json('Button updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 //--update
 router.route('/update/:id').post((req, res) => {
   PlotButton.findById(req.params.id)

@@ -2,19 +2,6 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-// const PlotButton = props => (
-//   <tr>
-//     <td>{props.plotbuttons.name}</td>
-//     <td>{props.plotbuttons.r}</td>
-//     <td>{props.plotbuttons.g}</td>
-//     <td>{props.plotbuttons.b}</td>
-//     <td>{props.plotbuttons.a}</td>
-//     <td>
-//       | <a href="#" onClick={() => { props.deleteButton(props.plotbutton._id) }}>delete</a>
-//     </td>
-//   </tr>
-// )
-
 export default class PlotDiv extends React.Component {
   constructor(props) {
     super(props);
@@ -31,14 +18,17 @@ export default class PlotDiv extends React.Component {
     this.onChangeB = this.onChangeB.bind(this);
     this.onChangeA = this.onChangeA.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.buttonClick = this.buttonClick.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
-    //this.buttonList = this.buttonList.bind(this);
+    this.buttonList = this.buttonList.bind(this);
   }
 
   componentDidMount() {
     axios.get('http://localhost:5000/plotbutton/')
       .then(response => {
-        this.setState({ buttons: response.data.map(button => button.name) })
+        this.setState({
+          buttons: response.data.map(button => button.name)
+         })
       })
       .catch((error) => {
         console.log(error);
@@ -47,12 +37,15 @@ export default class PlotDiv extends React.Component {
 
       axios.get('http://localhost:5000/plot')
         .then(response => {
-          if(response.data.length > 0) {
-            this.setState({
-              divs: response.data.map(div => div._id)
-            })
-          }
+          this.setState({
+            divs: response.data.map(div => div._id)
+          })
         })
+  }
+
+  buttonClick = (e) => {
+    console.log('This button was clicked: ');
+    console.log(e.target.value);
   }
 
   deleteButton(id) {
@@ -63,11 +56,25 @@ export default class PlotDiv extends React.Component {
     })
   }
 
-  // buttonList() {
-  //   return this.state.buttons.map(current => {
-  //     return <PlotButton plotbutton={current} deleteButton={this.deleteButton} key={current._id} />;
-  //   })
-  // }
+  buttonList() {
+    return this.state.buttons.map(current => {
+      return (
+        <div>
+          <button
+            key={current.name}
+            type="button"
+            className="btn btn-light"
+            value={current}
+            onClick={this.buttonClick}
+            deletebutton={this.deleteButton}
+            >
+          {current}
+          </button>
+          <Link to={"/update/"+current}>edit</Link>
+        </div>
+      )
+    })
+  }
 
   onChangeR(e) {
     this.setState ({
@@ -112,8 +119,8 @@ export default class PlotDiv extends React.Component {
     return (
       <div className="container">
         <div>
-          <h3>New button area</h3>
-          {/*{this.buttonList()}*/}
+          <h3>Button list area</h3>
+          {this.buttonList()}
         </div>
         <div>
           <h3>Button Area</h3>
@@ -122,7 +129,8 @@ export default class PlotDiv extends React.Component {
               return <button
                 key={button.name}
                 type="button"
-                className="btn btn-primary">
+                className="btn btn-primary"
+                >
                 {button}
                 </button>;
             })

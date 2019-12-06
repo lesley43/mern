@@ -38,7 +38,7 @@ router.route('/:id').delete((req, res) => {
 
 //must have all fields to update, can't have one or the other
 router.route('/update/:id').post((req, red) => {
-  Event.findById(req.params.id) //find current exercise
+  Event.findById(req.params.id) //find current event
     .then(event => {
       event.date = req.body.date;
       event.details = req.body.details;
