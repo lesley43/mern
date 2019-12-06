@@ -13,33 +13,15 @@ const Navbar = ({ user }) => {
             <li className="navbar-item">
               <NavLink to="/create" className="nav-link">Create Crop</NavLink>
             </li>
+            <li className="navbar-item">
+              <Link to="/plot" className="nav-link">Plot</Link>
+            </li>
             <li>
               <NavLink to="/event" className="nav-link">Calendar</NavLink>
             </li>
             <li>
-              {!user && (
-                <React.Fragment>
-                  <NavLink className="nav-item nav-link" to="/login">
-                    Login
-                  </NavLink>
-                  <NavLink className="nav-item nav-link" to="/register">
-                    Register
-                  </NavLink>
-                </React.Fragment>
-              )}
+              <Link to="/plotbutton" className="nav-link">Plot Button</Link>
             </li>
-            <li>
-              {user && (
-                <React.Fragment>
-                  <NavLink className="nav-item nav-link" to="/profile">
-                    {user.name}
-                  </NavLink>
-                  <NavLink className="nav-item nav-link" to="/logout">
-                    Logout
-                  </NavLink>
-                </React.Fragment>
-              )}   
-            </li> 
           </ul>
         </div>
       </nav>

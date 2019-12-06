@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import Calendar from 'react-calendar';
 
@@ -151,6 +151,7 @@ export default class CreateEvent extends Component {
             <tr>
               <th>Date</th>
               <th>Event</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
