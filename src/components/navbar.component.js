@@ -10,6 +10,9 @@ const Navbar = ({ user }) => {
             <li className="navbar-item">
               <NavLink to="/crops" className="nav-link">Crops</NavLink>
             </li>
+            <li>
+              <NavLink to="/info" className="nav-link">Crop Info</NavLink>
+            </li>
             <li className="navbar-item">
               <NavLink to="/create" className="nav-link">Create Crop</NavLink>
             </li>
