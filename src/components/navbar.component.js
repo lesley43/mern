@@ -19,9 +19,6 @@ const Navbar = ({ user }) => {
             <li>
               <NavLink to="/event" className="nav-link">Calendar</NavLink>
             </li>
-            <li>
-              <Link to="/plotbutton" className="nav-link">Plot Button</Link>
-            </li>
           </ul>
         </div>
       </nav>

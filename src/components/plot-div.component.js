@@ -13,6 +13,7 @@ const PlotButton = props => (
       >
       {props.plotbutton.name}
     </button>
+    <br/>
     <Link to={"/editbutton/"+props.plotbutton._id}>edit</Link> | <a href="#" onClick={() => {props.deleteButton(props.plotbutton._id)}}>delete</a>
   </div>
 )
@@ -62,6 +63,8 @@ export default class PlotDiv extends React.Component {
     this.divSizeHeight = this.divSizeHeight.bind(this);
     this.divSizeWidth = this.divSizeWidth.bind(this);
     this.divDisplay = this.divDisplay.bind(this);
+    this.handleClear = this.handleClear.bind(this);
+
   }
 
   componentDidMount() {
@@ -236,15 +239,57 @@ export default class PlotDiv extends React.Component {
       .then(res => console.log(res.data));
   }
 
+  handleClear = () => {
+    this.setState({
+      r: "235",
+      g: "235",
+      b: "235",
+      a: "100",
+    });
+  }
+
   render() {
+
+    const clearStyle = {
+          backgroundColor: `rgba(235, 235, 235, 100)`,
+          color: "black",
+          marginLeft: "20px"
+        }
+
     return (
       <div className="container">
+
+        <div className="row">
+          <a href="http://localhost:3000/plotbutton">
+            <button
+              type="button"
+              class="btn btn-success"
+            >
+              New Crop
+            </button>
+          </a>
+
+          <div>
+            <button
+              type="button"
+              className="btn btn-dark"
+              style={clearStyle}
+              onClick={this.handleClear}>
+              Clear selection
+            </button>
+          </div>
+        </div>
+
+        <br/>
+
         <div className="row">
           {this.buttonList()}
         </div>
 
+        <br/>
+
         <div>
-          <h3>Plot Div Area</h3>
+          <h3>Plot Area</h3>
           {this.divList()}
         </div>
 
