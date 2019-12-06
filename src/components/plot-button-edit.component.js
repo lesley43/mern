@@ -108,8 +108,7 @@ export default class EditButton extends Component {
       a: '',
     })
 
-    //Note: if we go back to calendar page after submitting, the changes don't take effect
-    //window.location = '/event'
+    window.location = '/plot'
   }
 
   render() {

@@ -78,7 +78,7 @@ export default class PlotButton extends React.Component {
     return (
       <div className="container">
         <div>
-          <h3>Plot Button Area</h3>
+          <h3>Create new plot button</h3>
           {
             this.state.buttons.map(function(button) {
               return <button

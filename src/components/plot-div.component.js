@@ -8,6 +8,7 @@ const PlotButton = props => (
       type="button"
       className="btn-btn-light"
       key={props.plotbutton._id}
+      style={{ backgroundColor: props.buttonStyling(props.plotbutton.r, props.plotbutton.g, props.plotbutton.b, props.plotbutton.a)}}
       onClick={() => {props.buttonClick(props.plotbutton._id)}}
       >
       {props.plotbutton.name}
@@ -17,13 +18,19 @@ const PlotButton = props => (
 )
 
 const PlotSection = props => (
-  <tr>
-    <td>{props.plotsection._id}</td>
-    <td>{props.plotsection.r}</td>
-    <td>{props.plotsection.g}</td>
-    <td>{props.plotsection.b}</td>
-    <td>{props.plotsection.a}</td>
-  </tr>
+  <div>
+    <button
+      type="button"
+      className="btn-btn-light"
+      key={props.plotsection._id}
+      style={{
+        backgroundColor: props.divStyling(props.plotsection.r, props.plotsection.g, props.plotsection.b, props.plotsection.a),
+        height: props.divSizeHeight(),
+        width: props.divSizeWidth()}}
+      onClick={() => {props.divClick(props.plotsection._id)}}
+    >
+    </button>
+  </div>
 )
 
 
@@ -49,6 +56,10 @@ export default class PlotDiv extends React.Component {
     this.deleteButton = this.deleteButton.bind(this);
     this.buttonList = this.buttonList.bind(this);
     this.divClick = this.divClick.bind(this);
+    this.divStyling = this.divStyling.bind(this);
+    this.buttonStyling = this.buttonStyling.bind(this);
+    this.divSizeHeight = this.divSizeHeight.bind(this);
+    this.divSizeWidth = this.divSizeWidth.bind(this);
   }
 
   componentDidMount() {
@@ -94,6 +105,32 @@ export default class PlotDiv extends React.Component {
         })
   }
 
+  divStyling(r, g, b, a) {
+    const thisR = r;
+    const thisG = g;
+    const thisB = b;
+    const thisA = a;
+    const background = 'rgba(' + thisR + ',' + thisG + ',' + thisB + ',' + thisA + ')';
+    return background;
+  }
+
+  divSizeHeight() {
+    return "50px"
+  }
+
+  divSizeWidth() {
+    return "50px"
+  }
+
+  buttonStyling(r, g, b, a) {
+    const thisR = r;
+    const thisG = g;
+    const thisB = b;
+    const thisA = a;
+    const background = 'rgba(' + thisR + ',' + thisG + ',' + thisB + ',' + thisA + ')';
+    return background;
+  }
+
   buttonClick(id) {
     console.log('This button was clicked: ');
     console.log(id);
@@ -113,13 +150,13 @@ export default class PlotDiv extends React.Component {
 
   buttonList() {
     return this.state.buttonList.map(current => {
-      return <PlotButton plotbutton={current} buttonClick={this.buttonClick} deleteButton={this.deleteButton} key={current._id} />
+      return <PlotButton plotbutton={current} buttonStyling={this.buttonStyling} buttonClick={this.buttonClick} deleteButton={this.deleteButton} key={current._id} />
     })
   }
 
   divList() {
     return this.state.divs.map(current => {
-      return <PlotSection plotsection={current} divClick={this.divClick} key={current._id} />
+      return <PlotSection plotsection={current} divStyling={this.divStyling} divSizeHeight={this.divSizeHeight} divSizeWidth={this.divSizeWidth} divClick={this.divClick} key={current._id} />
     })
   }
 
