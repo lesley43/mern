@@ -5,6 +5,7 @@ import HomePage from "./components/homepage.component"
 
 import CropList from "./components/crops-list.component";
 import Crops from "./components/crops";
+import CropInfo from "./components/cropInfo";
 import CropForm from "./components/cropForm";
 import CreateCrop from "./components/crop-create.component";
 
@@ -53,6 +54,7 @@ class App extends Component {
             <Route path="/crops/:id" component={CropForm} />
             <Route path="/crops" component={Crops} />
             <Route path="/create" component={CreateCrop} />
+            <Route path="/info" component={CropInfo} />
 
             <Route path="/event" component={CreateEvent} />
             <Route path="/edit/:id" component={EditEvent} />
