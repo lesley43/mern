@@ -30,14 +30,19 @@ connection.once('open', () => {
 //require and use routers - this is where route connects to server - and how components are connected through app.js
 const cropsRouter = require('./routes/crops');
 const eventsRouter = require('./routes/events');
+
 const plotButtonRouter = require('./routes/plot-button');
 const plotDivRouter = require('./routes/plot-div');
+
+const typesRouter = require('./routes/types');
 
 //this specifies the route: EX: someone goes to URL/crops -> taken to the crops router
 app.use('/crops', cropsRouter);
 app.use('/event', eventsRouter);
 app.use('/plotbutton', plotButtonRouter);
 app.use('/plot', plotDivRouter);
+
+app.use('/types', typesRouter);
 
 //starts server
 app.listen(port, () => {
