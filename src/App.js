@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import HomePage from "./components/homepage.component"
+
 import CropList from "./components/crops-list.component";
 import Crops from "./components/crops";
 import CropForm from "./components/cropForm";
-import CreateCrop from "./components/create-crop.component";
-import EditEvent from "./components/edit-event.component";
-import CreateEvent from "./components/create-event.component";
+import CreateCrop from "./components/crop-create.component";
+
+import EditEvent from "./components/event-edit.component";
+import CreateEvent from "./components/event-create.component";
+
+import PlotDiv from "./components/plot-div.component";
+import PlotButton from "./components/plot-button.component";
+import PlotEditButton from "./components/plot-button-edit.component";
+
 import NotFound from "./components/notFound";
 import Navbar from "./components/navbar.component";
 import LoginForm from "./components/loginForm";
@@ -27,8 +34,8 @@ class App extends Component {
   }
 
   render() {
-    const { user } = this.state; 
-    
+    const { user } = this.state;
+
     return (
       <React.Fragment>
         <ToastContainer />
@@ -46,8 +53,15 @@ class App extends Component {
             <Route path="/crops/:id" component={CropForm} />
             <Route path="/crops" component={Crops} />
             <Route path="/create" component={CreateCrop} />
+
             <Route path="/event" component={CreateEvent} />
             <Route path="/edit/:id" component={EditEvent} />
+
+            <Route path="/plot" component={PlotDiv} />
+            <Route path="/plotbutton" component={PlotButton} />
+            <Route path="/update/:name" component={PlotEditButton} />
+            <Route path="/editbutton/:id" component={PlotEditButton} />
+
             <Route path="/not-found" component={NotFound} />
             <Route path="/" exact component={HomePage} />
             <Redirect to="/not-found" />
