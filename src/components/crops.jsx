@@ -16,7 +16,7 @@ class Crops extends Component {
     crops: [],
     types: [],
     currentPage: 1,
-    pageSize: 12,
+    pageSize: 11,
     searchQuery: "",
     selectedType: null,
     sortColumn: { path: "name", order: "asc" }
@@ -77,6 +77,7 @@ class Crops extends Component {
 
   handleTypeSelect = type => {
     this.setState({ selectedType: type, searchQuery: "", currentPage: 1 });
+    console.log(type);
   };
 
   handleSearch = query => {
@@ -115,7 +116,7 @@ class Crops extends Component {
   render() {
     const { length: count } = this.state.crops;
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
-    const { user } = this.props;
+    //const { user } = this.props;
 
     if (count === 0) return <p>There are no crops in the database.</p>;
 
@@ -131,15 +132,13 @@ class Crops extends Component {
           />
         </div>
         <div className="col">
-          {user && (
             <Link
-              to="/crops/new"
+              to="/create"
               className="btn btn-primary"
               style={{ marginBottom: 20 }}
             >
               New Crop
             </Link>
-          )}
           <p>Showing {totalCount} crops in the database.</p>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <CropsTable
