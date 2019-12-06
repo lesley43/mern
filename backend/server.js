@@ -30,9 +30,11 @@ connection.once('open', () => {
 //require and use routers
 const cropsRouter = require('./routes/crops');
 const eventsRouter = require('./routes/events');
+const typesRouter = require('./routes/types');
 //this specifies the route: EX: someone goes to URL/crops -> taken to the crops router
 app.use('/crops', cropsRouter);
 app.use('/event', eventsRouter);
+app.use('/types', typesRouter);
 
 //starts server
 app.listen(port, () => {
