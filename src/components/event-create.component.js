@@ -108,10 +108,29 @@ export default class CreateEvent extends Component {
     return (
       <div className="container">
 
-      <Calendar
-          onChange={this.onChange}
-          value={this.state.date}
-        />
+      <div className="row">
+        <div className="col">
+          <Calendar
+              onChange={this.onChange}
+              value={this.state.date}
+            />
+          </div>
+          <div className="col">
+            <h3>Events</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Date</th>
+                  <th>Event</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.eventList()}
+              </tbody>
+            </table>
+          </div>
+      </div>
 
         <h3>Create new Event</h3>
         <form onSubmit={this.onSubmit}>
@@ -144,20 +163,6 @@ export default class CreateEvent extends Component {
             />
           </div>
         </form>
-
-        <h3>Events</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Date</th>
-              <th>Event</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.eventList()}
-          </tbody>
-        </table>
 
       </div>
     )
