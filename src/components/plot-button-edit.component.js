@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Calendar from 'react-calendar';
+import { SketchPicker } from 'react-color'
 
 export default class EditButton extends Component {
   constructor(props) {
@@ -12,6 +12,19 @@ export default class EditButton extends Component {
       b: '',
       a: '',
       buttons: [],
+      displayColorPicker: false,
+      color: {
+        r: '175',
+        g: '175',
+        b: '175',
+        a: '100',
+      },
+      colorChosen: {
+        r: '235',
+        g: '235',
+        b: '235',
+        a: '100',
+      },
     }
 
     this.onChangeName = this.onChangeName.bind(this);
@@ -20,6 +33,10 @@ export default class EditButton extends Component {
     this.onChangeB = this.onChangeB.bind(this);
     this.onChangeA = this.onChangeA.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   //this runs right away
@@ -86,10 +103,10 @@ export default class EditButton extends Component {
     e.preventDefault(); //prevents the default action
     const button = {
       name: this.state.name,
-      r: this.state.r,
-      g: this.state.g,
-      b: this.state.b,
-      a: this.state.a,
+      r: this.state.color.r,
+      g: this.state.color.g,
+      b: this.state.color.b,
+      a: this.state.color.a,
     }
     console.log(button);
 
@@ -108,15 +125,57 @@ export default class EditButton extends Component {
       a: '',
     })
 
-    //Note: if we go back to calendar page after submitting, the changes don't take effect
-    //window.location = '/event'
+    window.location = '/plot'
   }
 
+  handleClick = () => {
+    this.setState({ displayColorPicker: !this.state.displayColorPicker }, this.setReady)
+  };
+
+  handleClose = () => {
+    this.setState({ displayColorPicker: false })
+  };
+
+  handleChange = (color) => {
+    this.setState({
+      color: color.rgb,
+      colorChosen: color.rgb,
+    })
+  };
+
+
   render() {
+
+    const popover = {
+          position: 'absolute',
+          zIndex: '2',
+        }
+        const cover = {
+          position: 'fixed',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '0px',
+        }
+
+        const clearStyle = {
+          backgroundColor: `rgba(235, 235, 235, 100)`,
+          color: "black"
+        }
+
     return (
       <div className="container">
 
         <h3>Edit Button</h3>
+
+        <div>
+          <button onClick={ this.handleClick }>Pick Color</button>
+          { this.state.displayColorPicker ? <div style={ popover }>
+            <div style={ cover } onClick={ this.handleClose }/>
+            <SketchPicker color={ this.state.color } onChange={ this.handleChange }/>
+            </div> : null }
+        </div>
+
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Name</label>
@@ -134,7 +193,7 @@ export default class EditButton extends Component {
               type="text"
               required
               className="form-control"
-              value={this.state.r}
+              value={this.state.color.r}
               onChange={this.onChangeR}
             />
           </div>
@@ -144,7 +203,7 @@ export default class EditButton extends Component {
               type="text"
               required
               className="form-control"
-              value={this.state.g}
+              value={this.state.color.g}
               onChange={this.onChangeG}
             />
           </div>
@@ -154,7 +213,7 @@ export default class EditButton extends Component {
               type="text"
               required
               className="form-control"
-              value={this.state.b}
+              value={this.state.color.b}
               onChange={this.onChangeB}
             />
           </div>
@@ -164,7 +223,7 @@ export default class EditButton extends Component {
               type="text"
               required
               className="form-control"
-              value={this.state.a}
+              value={this.state.color.a}
               onChange={this.onChangeA}
             />
           </div>

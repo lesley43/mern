@@ -32,8 +32,8 @@ router.route('/add').post((req, res) => {
 });
 
 router.route('/:id').get((req, res) => {
-  Event.findById(req.params.id) //getting the id directly from the url
-    .then(crop => res.json(crop))
+  PlotButton.findById(req.params.id) //getting the id directly from the url
+    .then(button => res.json(button))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

@@ -8,22 +8,31 @@ const PlotButton = props => (
       type="button"
       className="btn-btn-light"
       key={props.plotbutton._id}
+      style={{ backgroundColor: props.buttonStyling(props.plotbutton.r, props.plotbutton.g, props.plotbutton.b, props.plotbutton.a)}}
       onClick={() => {props.buttonClick(props.plotbutton._id)}}
       >
       {props.plotbutton.name}
     </button>
+    <br/>
     <Link to={"/editbutton/"+props.plotbutton._id}>edit</Link> | <a href="#" onClick={() => {props.deleteButton(props.plotbutton._id)}}>delete</a>
   </div>
 )
 
 const PlotSection = props => (
-  <tr>
-    <td>{props.plotsection._id}</td>
-    <td>{props.plotsection.r}</td>
-    <td>{props.plotsection.g}</td>
-    <td>{props.plotsection.b}</td>
-    <td>{props.plotsection.a}</td>
-  </tr>
+  <div style={{display: props.divDisplay()}}>
+    <button
+      type="button"
+      className="btn-btn-light"
+      key={props.plotsection._id}
+      style={{
+        backgroundColor: props.divStyling(props.plotsection.r, props.plotsection.g, props.plotsection.b, props.plotsection.a),
+        height: props.divSizeHeight(),
+        width: props.divSizeWidth(),
+        }}
+      onClick={() => {props.divClick(props.plotsection._id)}}
+    >
+    </button>
+  </div>
 )
 
 
@@ -49,6 +58,13 @@ export default class PlotDiv extends React.Component {
     this.deleteButton = this.deleteButton.bind(this);
     this.buttonList = this.buttonList.bind(this);
     this.divClick = this.divClick.bind(this);
+    this.divStyling = this.divStyling.bind(this);
+    this.buttonStyling = this.buttonStyling.bind(this);
+    this.divSizeHeight = this.divSizeHeight.bind(this);
+    this.divSizeWidth = this.divSizeWidth.bind(this);
+    this.divDisplay = this.divDisplay.bind(this);
+    this.handleClear = this.handleClear.bind(this);
+
   }
 
   componentDidMount() {
@@ -94,13 +110,72 @@ export default class PlotDiv extends React.Component {
         })
   }
 
+  divStyling(r, g, b, a) {
+    const thisR = r;
+    const thisG = g;
+    const thisB = b;
+    const thisA = a;
+    const background = 'rgba(' + thisR + ',' + thisG + ',' + thisB + ',' + thisA + ')';
+    return background;
+  }
+
+  divSizeHeight() {
+    return "50px"
+  }
+
+  divSizeWidth() {
+    return "50px"
+  }
+
+  divDisplay() {
+    return "inline-block"
+  }
+
+  buttonStyling(r, g, b, a) {
+    const thisR = r;
+    const thisG = g;
+    const thisB = b;
+    const thisA = a;
+    const background = 'rgba(' + thisR + ',' + thisG + ',' + thisB + ',' + thisA + ')';
+    return background;
+  }
+
   buttonClick(id) {
     console.log('This button was clicked: ');
     console.log(id);
+
+    axios.get('http://localhost:5000/plotbutton/'+id)
+      .then(response => {
+        this.setState({
+          r: response.data.r,
+          g: response.data.g,
+          b: response.data.b,
+          a: response.data.a,
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
   }
 
   divClick(id) {
     console.log("clicked");
+    console.log(id);
+    const newColor = {
+      r: this.state.r,
+      g: this.state.g,
+      b: this.state.b,
+      a: this.state.a,
+    }
+    console.log(newColor);
+
+    axios.post('http://localhost:5000/plot/update/'+id, newColor)
+      //a promise after it's posted, do this
+      .then(res => console.log(res.data));
+
+    //refresh page:
+    window.location = '/plot'
   }
 
   deleteButton(id) {
@@ -113,13 +188,13 @@ export default class PlotDiv extends React.Component {
 
   buttonList() {
     return this.state.buttonList.map(current => {
-      return <PlotButton plotbutton={current} buttonClick={this.buttonClick} deleteButton={this.deleteButton} key={current._id} />
+      return <PlotButton plotbutton={current} buttonStyling={this.buttonStyling} buttonClick={this.buttonClick} deleteButton={this.deleteButton} key={current._id} />
     })
   }
 
   divList() {
     return this.state.divs.map(current => {
-      return <PlotSection plotsection={current} divClick={this.divClick} key={current._id} />
+      return <PlotSection plotsection={current} divStyling={this.divStyling} divSizeHeight={this.divSizeHeight} divSizeWidth={this.divSizeWidth} divDisplay={this.divDisplay} divClick={this.divClick} key={current._id} />
     })
   }
 
@@ -164,18 +239,61 @@ export default class PlotDiv extends React.Component {
       .then(res => console.log(res.data));
   }
 
+  handleClear = () => {
+    this.setState({
+      r: "235",
+      g: "235",
+      b: "235",
+      a: "100",
+    });
+  }
+
   render() {
+
+    const clearStyle = {
+          backgroundColor: `rgba(235, 235, 235, 100)`,
+          color: "black",
+          marginLeft: "20px"
+        }
+
     return (
       <div className="container">
+
+        <div className="row">
+          <a href="http://localhost:3000/plotbutton">
+            <button
+              type="button"
+              class="btn btn-success"
+            >
+              New Crop
+            </button>
+          </a>
+
+          <div>
+            <button
+              type="button"
+              className="btn btn-dark"
+              style={clearStyle}
+              onClick={this.handleClear}>
+              Clear selection
+            </button>
+          </div>
+        </div>
+
+        <br/>
+
         <div className="row">
           {this.buttonList()}
         </div>
 
+        <br/>
+
         <div>
-          <h3>Plot Div Area</h3>
+          <h3>Plot Area</h3>
           {this.divList()}
         </div>
-        <form onSubmit={this.onSubmit}>
+
+        {/*<form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>R: </label>
             <input
@@ -215,7 +333,9 @@ export default class PlotDiv extends React.Component {
           <div className="form-group">
             <input type="submit" value="Create Div Area" className="btn btn-success" />
           </div>
-        </form>
+        </form>*/}
+
+
       </div>
     )
   }
