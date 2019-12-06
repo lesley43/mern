@@ -5,13 +5,13 @@ import Calendar from 'react-calendar';
 export default class EditButton extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       name: '',
       r: '',
       g: '',
       b: '',
       a: '',
+      buttons: [],
     }
 
     this.onChangeName = this.onChangeName.bind(this);
@@ -24,8 +24,9 @@ export default class EditButton extends Component {
 
   //this runs right away
   componentDidMount() {
+    console.log(this.props.match.params.id);
     //getting the id directly from the url
-    axios.get('http://localhost:5000/edit/'+this.props.match.params.name)
+    axios.get('http://localhost:5000/editbutton/'+this.props.match.params.id)
       .then(response => {
         this.setState({
           name: response.data.name,
@@ -33,7 +34,6 @@ export default class EditButton extends Component {
           g: response.data.g,
           b: response.data.b,
           a: response.data.a,
-          buttons: [],
         })
       })
       .catch(function (error) {
@@ -94,8 +94,8 @@ export default class EditButton extends Component {
     console.log(button);
 
     //send http post request data to backend endpoint, the second arg is json body
-    //it is sent to backend/routes/events.js
-    axios.post('http://localhost:5000/plotbutton/update/'+this.props.match.params.name, button)
+    //it is sent to backend/routes/plot-button.js
+    axios.post('http://localhost:5000/plotbutton/update/'+this.props.match.params.id, button)
       //a promise after it's posted, do this
       .then(res => console.log(res.data));
 

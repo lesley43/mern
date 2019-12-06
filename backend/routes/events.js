@@ -30,6 +30,12 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/edit/:id').get((req, res) => {
+  Event.findById(req.params.id) //getting the id directly from the url
+    .then(crop => res.json(crop))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/:id').delete((req, res) => {
   Event.findByIdAndDelete(req.params.id)
     .then(() => res.json('Event deleted.'))

@@ -28,7 +28,7 @@ function App() {
         {/*--Plot--*/}
         <Route path="/plot" component={PlotDiv} />
         <Route path="/plotbutton" component={PlotButton} />
-        <Route path="/update/:name" component={PlotEditButton} />
+        <Route path="/editbutton/:id" component={PlotEditButton} />
     </Router>
   );
 }

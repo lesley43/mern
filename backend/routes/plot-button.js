@@ -31,6 +31,19 @@ router.route('/add').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/:id').get((req, res) => {
+  Event.findById(req.params.id) //getting the id directly from the url
+    .then(crop => res.json(crop))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//get DB entry by name
+router.route('/:name').get((req, res) => {
+  PlotButton.find({name: req.params.name}) //getting the name directly from the url
+    .then(button => res.json(button))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 //--delete
 router.route('/:id').delete((req, res) => {
   PlotButton.findByIdAndDelete(req.params.id)
@@ -39,24 +52,8 @@ router.route('/:id').delete((req, res) => {
 });
 
 //--update by name
-router.route('/update/:name').post((req, res) => {
-  PlotButton.findById(req.params.id)
-    .then(button => {
-      button.name = req.body.name;
-      button.r = req.body.r;
-      button.g = req.body.g;
-      button.b = req.body.b;
-      button.a = req.body.a;
-
-      button.save()
-        .then(() => res.json('Button updated!'))
-        .catch(err => res.status(400).json('Error: ' + err));
-    })
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-//--update
 router.route('/update/:id').post((req, res) => {
+  console.log("im running");
   PlotButton.findById(req.params.id)
     .then(button => {
       button.name = req.body.name;
@@ -71,5 +68,6 @@ router.route('/update/:id').post((req, res) => {
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
+
 
 module.exports = router;

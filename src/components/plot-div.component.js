@@ -2,6 +2,31 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
+const PlotButton = props => (
+  <div className="col">
+    <button
+      type="button"
+      className="btn-btn-light"
+      key={props.plotbutton._id}
+      onClick={() => {props.buttonClick(props.plotbutton._id)}}
+      >
+      {props.plotbutton.name}
+    </button>
+    <Link to={"/editbutton/"+props.plotbutton._id}>edit</Link> | <a href="#" onClick={() => {props.deleteButton(props.plotbutton._id)}}>delete</a>
+  </div>
+)
+
+const PlotSection = props => (
+  <tr>
+    <td>{props.plotsection._id}</td>
+    <td>{props.plotsection.r}</td>
+    <td>{props.plotsection.g}</td>
+    <td>{props.plotsection.b}</td>
+    <td>{props.plotsection.a}</td>
+  </tr>
+)
+
+
 export default class PlotDiv extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +36,8 @@ export default class PlotDiv extends React.Component {
       b: '',
       a: '',
       buttons: [],
+      buttonNames: [],
+      buttonList: [],
       divs: []
     }
     this.onChangeR = this.onChangeR.bind(this);
@@ -21,58 +48,78 @@ export default class PlotDiv extends React.Component {
     this.buttonClick = this.buttonClick.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
     this.buttonList = this.buttonList.bind(this);
+    this.divClick = this.divClick.bind(this);
   }
 
   componentDidMount() {
+    //retry list method
     axios.get('http://localhost:5000/plotbutton/')
       .then(response => {
-        this.setState({
-          buttons: response.data.map(button => button.name)
-         })
+        this.setState({buttonList: response.data})
       })
       .catch((error) => {
         console.log(error);
       })
 
 
-      axios.get('http://localhost:5000/plot')
+    //get button ids
+    axios.get('http://localhost:5000/plotbutton/')
+      .then(response => {
+        this.setState({
+          buttons: response.data.map(button => button._id)
+         });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+      //get button names
+      axios.get('http://localhost:5000/plotbutton/')
         .then(response => {
           this.setState({
-            divs: response.data.map(div => div._id)
-          })
+            buttonNames: response.data.map(button => button.name)
+           })
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+      //get plot info
+      axios.get('http://localhost:5000/plot/')
+        .then(response => {
+          this.setState({divs: response.data})
+        })
+        .catch((error) => {
+          console.log(error);
         })
   }
 
-  buttonClick = (e) => {
+  buttonClick(id) {
     console.log('This button was clicked: ');
-    console.log(e.target.value);
+    console.log(id);
+  }
+
+  divClick(id) {
+    console.log("clicked");
   }
 
   deleteButton(id) {
     axios.delete('http://localhost:5000/plotbutton/'+id)
       .then(res => console.log(res.data));
     this.setState({
-      divs: this.state.divs.filter(el => el._id !== id)
+      buttonList: this.state.buttonList.filter(el => el._id !== id),
     })
   }
 
   buttonList() {
-    return this.state.buttons.map(current => {
-      return (
-        <div>
-          <button
-            key={current.name}
-            type="button"
-            className="btn btn-light"
-            value={current}
-            onClick={this.buttonClick}
-            deletebutton={this.deleteButton}
-            >
-          {current}
-          </button>
-          <Link to={"/update/"+current}>edit</Link>
-        </div>
-      )
+    return this.state.buttonList.map(current => {
+      return <PlotButton plotbutton={current} buttonClick={this.buttonClick} deleteButton={this.deleteButton} key={current._id} />
+    })
+  }
+
+  divList() {
+    return this.state.divs.map(current => {
+      return <PlotSection plotsection={current} divClick={this.divClick} key={current._id} />
     })
   }
 
@@ -110,6 +157,8 @@ export default class PlotDiv extends React.Component {
     }
 
     console.log(div);
+    console.log('from plot-div');
+    console.log(this.state.buttons);
 
     axios.post('http://localhost:5000/plot/add', div)
       .then(res => console.log(res.data));
@@ -118,26 +167,13 @@ export default class PlotDiv extends React.Component {
   render() {
     return (
       <div className="container">
-        <div>
-          <h3>Button list area</h3>
+        <div className="row">
           {this.buttonList()}
         </div>
-        <div>
-          <h3>Button Area</h3>
-          {
-            this.state.buttons.map(function(button) {
-              return <button
-                key={button.name}
-                type="button"
-                className="btn btn-primary"
-                >
-                {button}
-                </button>;
-            })
-          }
-        </div>
+
         <div>
           <h3>Plot Div Area</h3>
+          {this.divList()}
         </div>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
