@@ -151,6 +151,7 @@ export default class CreateEvent extends Component {
             <tr>
               <th>Date</th>
               <th>Event</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>

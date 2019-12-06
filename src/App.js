@@ -8,19 +8,25 @@ import CropList from "./components/crops-list.component";
 import CreateCrop from "./components/crop-create.component";
 import EditEvent from "./components/event-edit.component";
 import CreateEvent from "./components/event-create.component";
-import PlotPage from "./components/plot-create.component"
+import PlotDiv from "./components/plot-div.component";
+import PlotButton from "./components/plot-button.component";
 
 function App() {
   return (
     <Router>
         <Navbar />
         <br/>
+        {/*--Homepage--*/}
         <Route path="/" exact component={HomePage} />
+        {/*--Crops--*/}
         <Route path="/crops" component={CropList} />
         <Route path="/create" component={CreateCrop} />
+        {/*--Calendar--*/}
         <Route path="/event" component={CreateEvent} />
         <Route path="/edit/:id" component={EditEvent} />
-        <Route path="/plotpage" component={PlotPage} />
+        {/*--Plot--*/}
+        <Route path="/plot" component={PlotDiv} />
+        <Route path="/plotbutton" component={PlotButton} />
     </Router>
   );
 }
