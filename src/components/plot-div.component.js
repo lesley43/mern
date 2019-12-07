@@ -289,7 +289,8 @@ export default class PlotDiv extends React.Component {
         <br/>
 
         <div>
-          <h3>Plot Area</h3>
+          <h3>Your plot:</h3>
+          <br/>
           {this.divList()}
         </div>
 
