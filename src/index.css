@@ -2,12 +2,13 @@ body {
     margin: 0;
     padding: 0 0 0 0;
     font-family: sans-serif;
+    background-color: #eceeef;
   }
-  
+
   .navbar {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
-  
+
   .clickable {
     cursor: pointer;
   }
