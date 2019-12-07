@@ -175,7 +175,7 @@ export default class PlotDiv extends React.Component {
       .then(res => console.log(res.data));
 
     //refresh page:
-    window.location = '/plot'
+    //window.location = '/plot'
   }
 
   deleteButton(id) {
@@ -289,7 +289,23 @@ export default class PlotDiv extends React.Component {
         <br/>
 
         <div>
-          <h3>Your plot:</h3>
+          <div className="row">
+            <div className="col">
+              <h3>Your plot:</h3>
+            </div>
+            <div className="col">
+            <a href="http://localhost:3000/plot">
+              <button
+                type="button"
+                className="btn btn-success"
+              >
+                Submit changes
+              </button>
+            </a>
+            </div>
+
+          </div>
+
           <br/>
           {this.divList()}
         </div>
