@@ -111,26 +111,28 @@ export default class CreateEvent extends Component {
       <div className="row">
         <div className="col">
           <Calendar
-              onChange={this.onChange}
-              value={this.state.date}
-            />
-          </div>
-          <div className="col">
-            <h3>Events</h3>
-            <table className="table">
-              <thead className="thead-light">
-                <tr>
-                  <th>Date</th>
-                  <th>Event</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.eventList()}
-              </tbody>
-            </table>
-          </div>
-      </div>
+            onChange={this.onChange}
+            value={this.state.date}
+          />
+        </div>
+        <div className="col">
+          <h3>Events</h3>
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Date</th>
+                <th>Event</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.eventList()}
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+
 
         <h3>Create new Event</h3>
         <form onSubmit={this.onSubmit}>

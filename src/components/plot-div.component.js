@@ -263,7 +263,7 @@ export default class PlotDiv extends React.Component {
           <a href="http://localhost:3000/plotbutton">
             <button
               type="button"
-              class="btn btn-success"
+              className="btn btn-success"
             >
               New Crop
             </button>
