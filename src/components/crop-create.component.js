@@ -63,8 +63,14 @@ export default class CreateCrop extends React.Component {
     axios.post('http://localhost:5000/crops/add', crop)
       .then(res => console.log(res.data));
 
-    //this will take people back to the homepage after submitting
-    //window.location = '/crops';
+
+    this.setState({
+      name: "",
+      cropType: "",
+      plantSeason: "",
+      harvestSeason: "",
+      lifeCycle: "",
+    })
   }
 
   render() {
