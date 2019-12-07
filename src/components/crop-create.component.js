@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 export default class CreateCrop extends React.Component {
   constructor(props) {
@@ -59,8 +60,11 @@ export default class CreateCrop extends React.Component {
     }
     console.log(crop);
 
+    axios.post('http://localhost:5000/crops/add', crop)
+      .then(res => console.log(res.data));
+
     //this will take people back to the homepage after submitting
-    //window.location = '/';
+    //window.location = '/crops';
   }
 
   render() {
