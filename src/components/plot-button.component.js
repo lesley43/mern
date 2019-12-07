@@ -33,7 +33,6 @@ export default class PlotButton extends React.Component {
     this.setState({
       color: color.rgb,
     })
-    this.onchangeR();
   };
 
   onChangeName(e) {
@@ -81,7 +80,13 @@ export default class PlotButton extends React.Component {
     axios.post('http://localhost:5000/plotbutton/add', button)
       .then(res => console.log(res.data));
 
-
+      this.setState({
+        name: "",
+        r: "",
+        g: "",
+        b: "",
+        a: ""
+      });
     //window.location="/plotpage";
 
   }
@@ -102,7 +107,7 @@ export default class PlotButton extends React.Component {
                 </button>;
             })
           }
-          <SketchPicker />
+          <SketchPicker onChangeComplete={ this.handleChangeComplete }/>
           </div>
 
           <div className="col">
@@ -121,7 +126,7 @@ export default class PlotButton extends React.Component {
               <input
                 type="text"
                 className="form-control"
-                value={this.state.color.r}
+                value={this.state.r}
                 onChange={this.onChangeR}
               />
             </div>
@@ -130,7 +135,7 @@ export default class PlotButton extends React.Component {
               <input
                 type="text"
                 className="form-control"
-                value={this.state.color.g}
+                value={this.state.g}
                 onChange={this.onChangeG}
               />
             </div>
@@ -139,7 +144,7 @@ export default class PlotButton extends React.Component {
               <input
                 type="text"
                 className="form-control"
-                value={this.state.color.b}
+                value={this.state.b}
                 onChange={this.onChangeB}
               />
             </div>
