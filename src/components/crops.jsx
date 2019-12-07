@@ -123,13 +123,13 @@ class Crops extends Component {
 
     return (
       <div className="row">
-        <div className="col-3">
+        {/*}<div className="col-3">
           <ListGroup
             items={this.state.types}
             selectedItem={this.state.selectedType}
             onItemSelect={this.handleTypeSelect}
           />
-        </div>
+        </div>*/}
         <div className="col">
           {user && (
             <Link
@@ -140,7 +140,6 @@ class Crops extends Component {
               New Crop
             </Link>
           )}
-          <p>Showing {totalCount} crops in the database.</p>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <CropsTable
             crops={crops}
